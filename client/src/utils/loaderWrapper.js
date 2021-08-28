@@ -1,8 +1,8 @@
 import { clearLoading, setLoading } from 'store/loading/action';
-export const loadingWrapper = (cb, key, dispatch) => {
+export const loadingWrapper = async (cb, key, dispatch) => {
   try {
     dispatch(setLoading(key));
-    cb();
+    await cb();
   } finally {
     dispatch(clearLoading(key));
   }

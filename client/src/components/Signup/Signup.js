@@ -87,15 +87,15 @@ function Signup(props) {
     if (Object.keys(formErrors).length === 0) {
       loadingWrapper(
         () => {
-          Authentication.registerUser(form)
+          return Authentication.registerUser(form)
             .then((response) => {
-              console.log('response :', response);
               enqueueSnackbar('Signup Successful', { variant: 'success' });
               props.handleTab(0);
+              return response;
             })
             .catch((err) => {
-              console.log('err :', err);
               enqueueSnackbar('Failed to Signup', { variant: 'error' });
+              return err;
             });
         },
         loaderListKeys.registerUser,

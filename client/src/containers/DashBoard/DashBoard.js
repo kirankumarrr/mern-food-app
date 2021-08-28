@@ -38,12 +38,12 @@ const DashBoard = (props) => {
 
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector((state) => state.auth.user);
-  const [restaurants, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState(null);
   const history = useHistory();
   const isOwner = user && 'role' in user && user.role === 'owner';
 
   const fetchRestaurants = useCallback(() => {
-    Restaurants.fetchRestaurants()
+    return Restaurants.fetchRestaurants()
       .then((res) => {
         if (isOwner) {
           const sliceRestaurants = res.data.data.filter(
@@ -53,17 +53,25 @@ const DashBoard = (props) => {
         } else {
           setRestaurants(res.data.data);
         }
+        return res;
       })
       .catch((err) => {
         enqueueSnackbar('Failed to Fetched Restaurant', {
           variant: 'error',
         });
+        return err;
       });
   }, [enqueueSnackbar, user, isOwner]);
 
   useEffect(() => {
-    loadingWrapper(fetchRestaurants, loaderListKeys.fetchRestaurants, dispatch);
-  }, [dispatch, fetchRestaurants]);
+    if (user) {
+      loadingWrapper(
+        fetchRestaurants,
+        loaderListKeys.fetchRestaurants,
+        dispatch
+      );
+    }
+  }, [dispatch, fetchRestaurants, user, enqueueSnackbar]);
 
   if (!user) {
     return <h1>Loading...</h1>;
@@ -72,50 +80,51 @@ const DashBoard = (props) => {
   return (
     <div className="dashboard">
       <h1>{`Welcome ${user.name}`}</h1>
-      {isOwner && restaurants.length === 0 && (
+      {isOwner && restaurants !== null && restaurants.length === 0 && (
         <CreateRestaurant fetchRestaurants={fetchRestaurants} />
       )}
 
       <div className={classes.root}>
-        {restaurants.map((restaurant, index) => {
-          return (
-            <Card className={classes.cardRoot} key={restaurant.name}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt="Contemplative Reptile"
-                  height="140"
-                  image={`https://picsum.photos/200/300?random=${index}`}
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {restaurant.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+        {restaurants &&
+          restaurants.map((restaurant, index) => {
+            return (
+              <Card className={classes.cardRoot} key={restaurant.name}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="140"
+                    image={`https://picsum.photos/200/300?random=${index}`}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {restaurant.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {restaurant.description}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      history.push(`/restaurants/${restaurant._id}/food`);
+                    }}
                   >
-                    {restaurant.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    history.push(`/restaurants/${restaurant._id}/food`);
-                  }}
-                >
-                  Explore
-                </Button>
-              </CardActions>
-            </Card>
-          );
-        })}
+                    Explore
+                  </Button>
+                </CardActions>
+              </Card>
+            );
+          })}
       </div>
     </div>
   );

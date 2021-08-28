@@ -69,14 +69,16 @@ const RestaurantFoodList = (props) => {
   useEffect(() => {
     loadingWrapper(
       () => {
-        FoodMenuApi.fetchFoodMenu(id)
+        return FoodMenuApi.fetchFoodMenu(id)
           .then((res) => {
             setFoodMenuList(res.data.data);
+            return res;
           })
-          .catch((_) => {
+          .catch((err) => {
             enqueueSnackbar('Failed to fetch menu list', {
               variant: 'error',
             });
+            return err;
           });
       },
       loaderListKeys.fetchFoodMenu,

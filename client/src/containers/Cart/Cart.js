@@ -75,7 +75,7 @@ const Cart = (props) => {
   const handelDeleteCartItem = (foodItem) => {
     loadingWrapper(
       () => {
-        CartApi.deleteItemFromCart(foodItem.foodId)
+        return CartApi.deleteItemFromCart(foodItem.foodId)
           .then((res) => {
             dispatch(deleteCartItems(foodItem.foodId));
             enqueueSnackbar(
@@ -84,12 +84,13 @@ const Cart = (props) => {
                 variant: 'success',
               }
             );
+            return res;
           })
           .catch((err) => {
-            console.log(err);
             enqueueSnackbar(`Failed to delete cart ${foodItem.foodId}`, {
               variant: 'error',
             });
+            return err;
           });
       },
       loaderListKeys.fetchOrderDetails,
@@ -120,20 +121,22 @@ const Cart = (props) => {
 
     loadingWrapper(
       () => {
-        OrderApi.createOrder(payload)
+        return OrderApi.createOrder(payload)
           .then((res) => {
             enqueueSnackbar('Order Created successfully', {
               variant: 'success',
             });
-            CartApi.clearAllCart()
+            return CartApi.clearAllCart()
               .then((res) => {
                 dispatch(clearCartItems());
                 history.push('/orders');
+                return res;
               })
               .catch((err) => {
                 enqueueSnackbar('Failed to clear all items from cart', {
                   variant: 'error',
                 });
+                return err;
               });
           })
           .catch((err) => {
@@ -141,6 +144,7 @@ const Cart = (props) => {
             enqueueSnackbar('Failed to create order', {
               variant: 'error',
             });
+            return err;
           });
       },
       loaderListKeys.createOrder,

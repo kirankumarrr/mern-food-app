@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
       padding: '64px 10px 0',
     },
   },
+  backdrop: {
+    zIndex: 1,
+  },
 }));
 
 const App = (props) => {

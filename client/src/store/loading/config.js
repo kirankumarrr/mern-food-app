@@ -6,4 +6,6 @@ export const loaderListKeys = {
   registerUser: 'registerUser',
   deleteItemFromCart: 'deleteItemFromCart',
   createOrder: 'createOrder',
+  createRestaurants: 'createRestaurants',
+  updateStatus: 'updateStatus',
 };

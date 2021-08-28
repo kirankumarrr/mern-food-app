@@ -64,7 +64,7 @@ function SignIn() {
     if (Object.keys(formErrors).length === 0) {
       loadingWrapper(
         () => {
-          Authentication.loginUser(form)
+          return Authentication.loginUser(form)
             .then((response) => {
               var dt = new Date();
               var setTime = dt.setSeconds(dt.getSeconds() + 36000);
@@ -79,9 +79,11 @@ function SignIn() {
               dispatch(setCurrentUser(decode));
               history.push('./');
               enqueueSnackbar('Login Successful', { variant: 'success' });
+              return response;
             })
-            .catch((_) => {
+            .catch((err) => {
               enqueueSnackbar('Failed to Login', { variant: 'error' });
+              return err;
             });
         },
         loaderListKeys.loginUser,

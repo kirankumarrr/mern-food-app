@@ -7,11 +7,10 @@ import SaveIcon from '@material-ui/icons/Save';
 import Restaurants from '../../lib/Api/Restaurants';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Typography from '@material-ui/core/Typography';
-//TODO : Loader Pending
-//TODO : Success/Error Message
-//TODO : Navigation
-//TODO : Refactor
+import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { loadingWrapper } from 'utils/loaderWrapper';
+import { loaderListKeys } from 'store/loading/config';
 function CreateRestaurant(props) {
   const [formErrors, setFormErrors] = useState({});
   const [name, setName] = useState('');
@@ -69,8 +68,8 @@ function CreateRestaurant(props) {
     },
   }));
   const classes = useStyles();
-
-  const handelSingUp = () => {
+  const dispatch = useDispatch();
+  const handelRestaurantsCreation = () => {
     const cloneErrors = Object.assign({}, formErrors);
     const form = {
       name,
@@ -89,20 +88,27 @@ function CreateRestaurant(props) {
     setFormErrors(cloneErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      Restaurants.createRestaurants(form)
-        .then((response) => {
-          console.log('response :', response);
-          props.fetchRestaurants();
-          enqueueSnackbar('Restaurant created successfully', {
-            variant: 'success',
-          });
-        })
-        .catch((err) => {
-          console.log('err :', err);
-          enqueueSnackbar('Failed to create Restaurant', {
-            variant: 'error',
-          });
-        });
+      loadingWrapper(
+        () => {
+          return Restaurants.createRestaurants(form)
+            .then((response) => {
+              props.fetchRestaurants();
+              enqueueSnackbar('Restaurant created successfully', {
+                variant: 'success',
+              });
+              return response;
+            })
+            .catch((err) => {
+              console.log('err :', err);
+              enqueueSnackbar('Failed to create Restaurant', {
+                variant: 'error',
+              });
+              return err;
+            });
+        },
+        loaderListKeys.createRestaurants,
+        dispatch
+      );
     }
   };
 
@@ -202,7 +208,7 @@ function CreateRestaurant(props) {
       </div>
       <div className={classes.buttonDiv}>
         <Button
-          onClick={handelSingUp}
+          onClick={handelRestaurantsCreation}
           variant="contained"
           color="primary"
           size="large"

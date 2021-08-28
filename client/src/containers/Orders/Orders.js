@@ -13,8 +13,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import OrderApi from 'lib/Api/Order';
 import { roleList } from './config';
 import { useSnackbar } from 'notistack';
-import { clearLoading, setLoading } from 'store/loading/action';
 import { loaderListKeys } from 'store/loading/config';
+import { loadingWrapper } from 'utils/loaderWrapper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,34 +76,45 @@ const Orders = (props) => {
   const [orders, setOrders] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    try {
-      dispatch(setLoading(loaderListKeys.fetchFoodMenu));
-      OrderApi.fetchOrders()
-        .then((res) => {
-          setOrders(res.data.data);
-        })
-        .catch((_) => {
-          enqueueSnackbar('Failed to orders', {
-            variant: 'error',
+    loadingWrapper(
+      () => {
+        return OrderApi.fetchOrders()
+          .then((res) => {
+            setOrders(res.data.data);
+            return res;
+          })
+          .catch((err) => {
+            enqueueSnackbar('Failed to orders', {
+              variant: 'error',
+            });
+            return err;
           });
-        });
-    } finally {
-      dispatch(clearLoading(loaderListKeys.fetchFoodMenu));
-    }
+      },
+      loaderListKeys.fetchFoodMenu,
+      dispatch
+    );
   }, [dispatch, enqueueSnackbar]);
 
   const handelOrderStatus = (order, nextStatus, index) => {
-    OrderApi.updateStatus(order._id, nextStatus)
-      .then((res) => {
-        const getOrders = Object.assign([], orders);
-        getOrders[index].status = res.data.data.status;
-        setOrders(getOrders);
-      })
-      .catch((err) => {
-        enqueueSnackbar('Failed to update order Status', {
-          variant: 'error',
-        });
-      });
+    loadingWrapper(
+      () => {
+        return OrderApi.updateStatus(order._id, nextStatus)
+          .then((res) => {
+            const getOrders = Object.assign([], orders);
+            getOrders[index].status = res.data.data.status;
+            setOrders(getOrders);
+            return res;
+          })
+          .catch((err) => {
+            enqueueSnackbar('Failed to update order Status', {
+              variant: 'error',
+            });
+            return err;
+          });
+      },
+      loaderListKeys.updateStatus,
+      dispatch
+    );
   };
   return (
     <div>

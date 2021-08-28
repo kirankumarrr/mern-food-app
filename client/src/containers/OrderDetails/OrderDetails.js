@@ -14,14 +14,16 @@ const OrderDetails = () => {
   useEffect(() => {
     loadingWrapper(
       () => {
-        OrderApi.fetchOrderDetails(id)
+        return OrderApi.fetchOrderDetails(id)
           .then((res) => {
             setOrderDetails(res.data.data);
+            return res;
           })
-          .catch((_) => {
+          .catch((err) => {
             enqueueSnackbar('Failed to fetch order details', {
               variant: 'error',
             });
+            return err;
           });
       },
       loaderListKeys.fetchOrderDetails,
