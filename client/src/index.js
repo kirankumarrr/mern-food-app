@@ -21,6 +21,10 @@ ReactDOM.render(
       <HashRouter>
         <SnackbarProvider
           maxSnack={3}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           ref={notistackRef}
           action={(key) => (
             <Button

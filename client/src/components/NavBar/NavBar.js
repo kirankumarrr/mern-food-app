@@ -152,7 +152,7 @@ const NavBar = () => {
       >
         Order
       </MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      {user && <MenuItem onClick={handleLogout}>Logout</MenuItem>}
     </Menu>
   );
 
