@@ -3,10 +3,10 @@ const router = express.Router();
 
 const { protect } = require('../../middlewares/auth');
 const {
-  createCart,
-  fetchCart,
-  deleteFromCart,
-  clearCompleteCart,
+    createCart,
+    fetchCart,
+    deleteFromCart,
+    clearCompleteCart
 } = require('../controllers/Cart/Cart');
 router.use(protect);
 router.delete('/clearAll', clearCompleteCart);

@@ -3,10 +3,10 @@ const router = express.Router();
 
 const { protect } = require('../../middlewares/auth');
 const {
-  createOrder,
-  fetchOrders,
-  updateStatus,
-  fetchOrder,
+    createOrder,
+    fetchOrders,
+    updateStatus,
+    fetchOrder
 } = require('../controllers/Order/Order');
 const OrderValidator = require('../../validationMiddelware/order');
 router.use(protect);

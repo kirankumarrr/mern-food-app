@@ -12,51 +12,53 @@ import StatuIcons from './StatuIcons';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: '6px 16px',
-  },
-  secondaryTail: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-  statusHeading: {
-    textTransform: 'capitalize',
-  },
+    paper: {
+        padding: '6px 16px'
+    },
+    secondaryTail: {
+        backgroundColor: theme.palette.secondary.main
+    },
+    statusHeading: {
+        textTransform: 'capitalize'
+    }
 }));
 
 export default function TimeLine(props) {
-  const classes = useStyles();
-  return (
-    <Timeline align="alternate">
-      {(props.orderDetails.status || []).map((trackStatus, index) => {
-        return (
-          <TimelineItem key={index}>
-            <TimelineOppositeContent>
-              <Typography variant="body2" color="textSecondary">
-                {moment(trackStatus.updatedAt).format('DD-MM-YYYY h:mm a')}
-              </Typography>
-            </TimelineOppositeContent>
+    const classes = useStyles();
+    return (
+        <Timeline align="alternate">
+            {(props.orderDetails.status || []).map((trackStatus, index) => {
+                return (
+                    <TimelineItem key={index}>
+                        <TimelineOppositeContent>
+                            <Typography variant="body2" color="textSecondary">
+                                {moment(trackStatus.updatedAt).format(
+                                    'DD-MM-YYYY h:mm a'
+                                )}
+                            </Typography>
+                        </TimelineOppositeContent>
 
-            <TimelineSeparator>
-              <StatuIcons status={trackStatus.currentState} />
-              {index < props.orderDetails.status.length - 1 && (
-                <TimelineConnector />
-              )}
-            </TimelineSeparator>
+                        <TimelineSeparator>
+                            <StatuIcons status={trackStatus.currentState} />
+                            {index < props.orderDetails.status.length - 1 && (
+                                <TimelineConnector />
+                            )}
+                        </TimelineSeparator>
 
-            <TimelineContent>
-              <Paper elevation={3} className={classes.paper}>
-                <Typography
-                  variant="h6"
-                  component="h1"
-                  className={classes.statusHeading}
-                >
-                  {trackStatus.currentState}
-                </Typography>
-              </Paper>
-            </TimelineContent>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
-  );
+                        <TimelineContent>
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography
+                                    variant="h6"
+                                    component="h1"
+                                    className={classes.statusHeading}
+                                >
+                                    {trackStatus.currentState}
+                                </Typography>
+                            </Paper>
+                        </TimelineContent>
+                    </TimelineItem>
+                );
+            })}
+        </Timeline>
+    );
 }

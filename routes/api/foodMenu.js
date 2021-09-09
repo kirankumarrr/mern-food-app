@@ -5,9 +5,9 @@ const router = express.Router();
 const { protect } = require('../../middlewares/auth');
 const foodMenuValidator = require('../../validationMiddelware/foodMenu');
 const {
-  createFoodMenu,
-  fetchFoodMenu,
-  // updateCards,
+    createFoodMenu,
+    fetchFoodMenu
+    // updateCards,
 } = require('../controllers/Restaurants/FoodMenu/FoodMenu');
 //Protecting all below routes
 router.use(protect);

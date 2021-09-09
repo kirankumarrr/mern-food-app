@@ -20,67 +20,71 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
-  mainWrapper: {
-    padding: '64px 30px 0',
-    [theme.breakpoints.down('sm')]: {
-      padding: '64px 10px 0',
+    mainWrapper: {
+        padding: '64px 30px 0',
+        [theme.breakpoints.down('sm')]: {
+            padding: '64px 10px 0'
+        }
     },
-  },
-  backdrop: {
-    zIndex: 1,
-  },
+    backdrop: {
+        zIndex: 1
+    }
 }));
 
 const App = (props) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const isloading = useSelector((state) => state.loading.isloading);
-  useEffect(() => {
-    if (document.cookie.indexOf('jwtToken=') !== -1) {
-      setAuthToken(getCookieValue('jwtToken'));
-      const decoded = jwt_decode(getCookieValue('jwtToken'));
-      dispatch(setCurrentUser(decoded));
-      // Check for expired token
-      const currentTime = Date.now() / 1000;
-      if (decoded.exp < currentTime) {
-        dispatch(signOut());
-        props.history.push('/auth');
-      }
-    } else {
-      props.history.push('/auth');
-    }
-  }, [dispatch, props.history]);
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const isloading = useSelector((state) => state.loading.isloading);
+    useEffect(() => {
+        if (document.cookie.indexOf('jwtToken=') !== -1) {
+            setAuthToken(getCookieValue('jwtToken'));
+            const decoded = jwt_decode(getCookieValue('jwtToken'));
+            dispatch(setCurrentUser(decoded));
+            // Check for expired token
+            const currentTime = Date.now() / 1000;
+            if (decoded.exp < currentTime) {
+                dispatch(signOut());
+                props.history.push('/auth');
+            }
+        } else {
+            props.history.push('/auth');
+        }
+    }, [dispatch, props.history]);
 
-  return (
-    <div className="app-container">
-      <NavBar />
+    return (
+        <div className="app-container">
+            <NavBar />
 
-      <main className={classes.mainWrapper}>
-        <Switch>
-          <PrivateRoute
-            exact
-            path="/restaurants/:id/food/create"
-            component={CreateFoodMenu}
-          />
-          <PrivateRoute
-            exact
-            path="/restaurants/:id/food"
-            component={RestaurantFoodList}
-          />
-          <PrivateRoute exact path="/cart" component={Cart} />
-          <PrivateRoute exact path="/orders/:id" component={OrderDetails} />
-          <PrivateRoute exact path="/orders" component={Orders} />
-          <PrivateRoute exact path="/" component={DashBoard} />
-          <Route exact path="/auth" component={AuthenticationPage} />
-        </Switch>
-        <Backdrop className={classes.backdrop} open={isloading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </main>
+            <main className={classes.mainWrapper}>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/restaurants/:id/food/create"
+                        component={CreateFoodMenu}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/restaurants/:id/food"
+                        component={RestaurantFoodList}
+                    />
+                    <PrivateRoute exact path="/cart" component={Cart} />
+                    <PrivateRoute
+                        exact
+                        path="/orders/:id"
+                        component={OrderDetails}
+                    />
+                    <PrivateRoute exact path="/orders" component={Orders} />
+                    <PrivateRoute exact path="/" component={DashBoard} />
+                    <Route exact path="/auth" component={AuthenticationPage} />
+                </Switch>
+                <Backdrop className={classes.backdrop} open={isloading}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            </main>
 
-      {/* <Footer /> */}
-    </div>
-  );
+            {/* <Footer /> */}
+        </div>
+    );
 };
 
 export default withRouter(App);

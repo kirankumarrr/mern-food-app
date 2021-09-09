@@ -8,14 +8,14 @@ const restaurantsValidator = require('../../validationMiddelware/restaurants');
 const foodMenuValidator = require('../../validationMiddelware/foodMenu');
 const foodMenu = require('./foodMenu');
 const {
-  createFoodMenu,
-  // fetchRestaurants,
-  // updateCards,
+    createFoodMenu
+    // fetchRestaurants,
+    // updateCards,
 } = require('../controllers/Restaurants/FoodMenu/FoodMenu');
 const {
-  createRestaurants,
-  fetchRestaurants,
-  // updateCards,
+    createRestaurants,
+    fetchRestaurants
+    // updateCards,
 } = require('../controllers/Restaurants/restaurants');
 
 //Protecting all below routes

@@ -27,16 +27,16 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 mongoose
-  .connect(dbPath, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then((res) => {
-    console.log('Connected to Mongo̥DB');
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+    .connect(dbPath, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then((res) => {
+        console.log('Connected to Mongo̥DB');
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 // Use Routes
 app.use('/api/users', users);
@@ -48,23 +48,23 @@ app.use(errorHandler);
 
 // Server static assests if in production
 if (process.env.NODE_ENV === 'production') {
-  //SET Static folder
-  app.use(express.static('client/build'));
+    //SET Static folder
+    app.use(express.static('client/build'));
 
-  app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+    app.get('*', (_, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
 }
 
 const port = process.env.PORT || 5000;
 
 const server = app.listen(
-  port,
-  console.log(`Server runnig on port  ${port}`.yellow.underline.bold)
+    port,
+    console.log(`Server runnig on port  ${port}`.yellow.underline.bold)
 );
 
 //Handle unhandled promises rejections
 process.on('unhandledRejection', (error, promise) => {
-  console.log(`Error: ${error.message}`.red);
-  server.close(() => process.exit(1));
+    console.log(`Error: ${error.message}`.red);
+    server.close(() => process.exit(1));
 });

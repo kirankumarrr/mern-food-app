@@ -13,13 +13,10 @@ const keys = require('../../config/keys');
 //Load User Model
 const User = require('../../models/User');
 const { protect } = require('../../middlewares/auth');
-const { register, login, current  } = require('../controllers/Users/users')
-
-
+const { register, login, current } = require('../controllers/Users/users');
 
 router.route('/register').post(register);
 router.route('/login').post(login);
-router.route('/current').get(protect,current);
+router.route('/current').get(protect, current);
 
-
-module.exports = router;  
+module.exports = router;

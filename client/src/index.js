@@ -12,33 +12,33 @@ import { Button } from '@material-ui/core';
 // add action to all snackbars
 const notistackRef = React.createRef();
 const onClickDismiss = (key) => () => {
-  notistackRef.current.closeSnackbar(key);
+    notistackRef.current.closeSnackbar(key);
 };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={configureStore()}>
-      <HashRouter>
-        <SnackbarProvider
-          maxSnack={3}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          ref={notistackRef}
-          action={(key) => (
-            <Button
-              onClick={onClickDismiss(key)}
-              startIcon={<HighlightOffIcon />}
-            ></Button>
-          )}
-        >
-          <App />
-        </SnackbarProvider>
-      </HashRouter>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider store={configureStore()}>
+            <HashRouter>
+                <SnackbarProvider
+                    maxSnack={3}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center'
+                    }}
+                    ref={notistackRef}
+                    action={(key) => (
+                        <Button
+                            onClick={onClickDismiss(key)}
+                            startIcon={<HighlightOffIcon />}
+                        ></Button>
+                    )}
+                >
+                    <App />
+                </SnackbarProvider>
+            </HashRouter>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

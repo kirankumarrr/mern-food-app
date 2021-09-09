@@ -1,11 +1,11 @@
 export const loaderListKeys = {
-  fetchRestaurants: 'fetchRestaurants',
-  createCart: 'createCart',
-  fetchFoodMenu: 'fetchFoodMenu',
-  fetchOrderDetails: 'fetchOrderDetails',
-  registerUser: 'registerUser',
-  deleteItemFromCart: 'deleteItemFromCart',
-  createOrder: 'createOrder',
-  createRestaurants: 'createRestaurants',
-  updateStatus: 'updateStatus',
+    fetchRestaurants: 'fetchRestaurants',
+    createCart: 'createCart',
+    fetchFoodMenu: 'fetchFoodMenu',
+    fetchOrderDetails: 'fetchOrderDetails',
+    registerUser: 'registerUser',
+    deleteItemFromCart: 'deleteItemFromCart',
+    createOrder: 'createOrder',
+    createRestaurants: 'createRestaurants',
+    updateStatus: 'updateStatus'
 };
