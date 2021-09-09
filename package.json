@@ -25,6 +25,7 @@
     "express-pdf": "^1.2.2",
     "express-validator": "^6.12.1",
     "gravatar": "^1.8.2",
+    "husky": "^7.0.2",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "migrate-mongo": "^8.2.3",
@@ -39,6 +40,14 @@
     "pug": "^3.0.2",
     "validator": "^13.6.0",
     "winston": "^3.3.3"
+  },
+  "husky": {
+    "hooks": {
+      "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+      "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+      "post-applypatch": "echo \"[Husky] post-applypatch\"",
+      "pre-commit": "echo \"[Husky] pre-commit\""
+    }
   },
   "author": "",
   "license": "ISC",
